@@ -1,5 +1,5 @@
 
-# Promptly — AI Prompt Versioning & Testing Platform
+# Promptly AI Prompt Versioning & Testing Platform
 
 > Git-like prompt versioning, A/B testing, and AI scoring for teams. Ship
 > better prompts faster.
@@ -8,13 +8,13 @@
 
 Teams building AI products struggle to iterate on prompts safely and
 collaboratively. Prompt changes are often ad-hoc, untested, and hard to
-rollback — causing inconsistent model behavior and lost time.
+rollback  causing inconsistent model behavior and lost time.
 
 ## 💡 Solution Overview
 
 Promptly provides Git-like versioning for prompts, A/B testing across
 prompt variants, automated AI-based scoring of responses, and rollback to
-higher-performing prompts — all in a multi-tenant SaaS platform.
+higher-performing prompts  all in a multi-tenant SaaS platform.
 
 ## ✨ Key Features
 
@@ -57,27 +57,6 @@ Flow (high level):
 2. Team launches an A/B test which hits the AI layer with each variant.
 3. Responses are scored and stored; metrics are aggregated in DB.
 4. UI surfaces results and allows rollback to the best version.
-
-## 📁 Folder Structure
-
-Root layout (trimmed):
-
-- Readme.md
-- client/
-	- public/
-	- src/
-		- App.jsx
-		- main.jsx
-	- package.json
-- server/
-	- index.js
-	- src/
-		- config/
-		- controllers/
-		- middleware/
-		- models/
-		- routes/
-	- package.json
 
 ## ⚙️ Installation (Local dev)
 
@@ -133,7 +112,7 @@ process manager (PM2) or container.
 
 ## 👤 Author
 
-Promptly — built by urayu. Open to contributions and feedback.
+Promptly is Open to contributions and feedback.
 
 ## 📄 License
 
