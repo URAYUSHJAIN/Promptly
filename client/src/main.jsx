@@ -19,8 +19,8 @@ createRoot(document.getElementById('root')).render(
         publishableKey={clerkPublishableKey}
         signInUrl="/login"
         signUpUrl="/signup"
-        signInFallbackRedirectUrl="/dashboard"
-        signUpFallbackRedirectUrl="/dashboard"
+        signInFallbackRedirectUrl="/sso-callback"
+        signUpFallbackRedirectUrl="/sso-callback"
         afterSignOutUrl="/"
       >
         <App />
