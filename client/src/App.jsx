@@ -8,6 +8,11 @@ import DocsPage from './pages/docs/DocsPage';
 import LoaderPage from './pages/loader/LoaderPage';
 import FeaturesPage from './pages/features/FeaturesPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
+import TeamPage from './pages/dashboard/TeamPage';
+import SettingsPage from './pages/dashboard/SettingsPage';
+import PromptsPage from './pages/dashboard/PromptsPage';
+import ExperimentsPage from './pages/dashboard/ExperimentsPage';
+import AnalyticsPage from './pages/dashboard/AnalyticsPage';
 
 /* Protect routes — redirect to /login if not signed in */
 function ProtectedRoute({ children }) {
@@ -64,6 +69,11 @@ function App() {
 
         {/* Protected */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/dashboard/team" element={<ProtectedRoute><TeamPage /></ProtectedRoute>} />
+        <Route path="/dashboard/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+        <Route path="/dashboard/prompts" element={<ProtectedRoute><PromptsPage /></ProtectedRoute>} />
+        <Route path="/dashboard/experiments" element={<ProtectedRoute><ExperimentsPage /></ProtectedRoute>} />
+        <Route path="/dashboard/analytics" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

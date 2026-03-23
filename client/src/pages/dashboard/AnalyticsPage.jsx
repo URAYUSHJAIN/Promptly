@@ -14,36 +14,13 @@ const NAV_BOTTOM = [
   { id: 'settings', label: 'Settings', icon: <SettingsIcon />, path: '/dashboard/settings' },
 ];
 
-const PROMPTS = [
-  { name: 'Customer Support v4', id: 'p_88203_xyz', version: 'v4.2.1', updated: '2 hours ago', status: 'ACTIVE' },
-  { name: 'Marketing Copywriter', id: 'p_91244_abc', version: 'v1.0.0', updated: 'Yesterday', status: 'DRAFT' },
-  { name: 'Python Code Debugger', id: 'p_77301_dev', version: 'v2.4.0', updated: '3 days ago', status: 'FAILED' },
-  { name: 'Creative Storyteller', id: 'p_12239_cre', version: 'v3.1.2', updated: 'Oct 12, 2023', status: 'ARCHIVED' },
-];
-
-const STATUS_STYLE = {
-  ACTIVE: { color: '#16a34a', bg: 'rgba(22,163,74,0.08)', dot: '#16a34a' },
-  DRAFT: { color: '#d97706', bg: 'rgba(217,119,6,0.08)', dot: '#d97706' },
-  FAILED: { color: '#dc2626', bg: 'rgba(220,38,38,0.08)', dot: '#dc2626' },
-  ARCHIVED: { color: '#6B5C4E', bg: 'rgba(107,92,78,0.08)', dot: '#6B5C4E' },
-};
-
-const VERSION_COLORS = { ACTIVE: '#C8A882', DRAFT: '#C8A882', FAILED: '#C8A882', ARCHIVED: '#C8A882' };
-
-function getHour() {
-  const h = new Date().getHours();
-  if (h < 12) return 'morning';
-  if (h < 17) return 'afternoon';
-  return 'evening';
-}
-
-export default function DashboardPage() {
+export default function AnalyticsPage() {
   const { user } = useUser();
   const { signOut } = useClerk();
   const navigate = useNavigate();
-  const [activeNav, setActiveNav] = useState('overview');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const activeNav = 'analytics';
 
   const firstName = user?.firstName || user?.username || user?.emailAddresses?.[0]?.emailAddress?.split('@')[0] || 'there';
   const initials = (user?.firstName?.[0] || '') + (user?.lastName?.[0] || '') || firstName[0]?.toUpperCase() || 'U';
@@ -58,14 +35,12 @@ export default function DashboardPage() {
 
       {/* ═══ SIDEBAR ═══ */}
       <aside style={{ width: '200px', flexShrink: 0, background: '#1C1410', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '28px 0 20px' }}>
-        {/* Logo */}
         <div>
           <div style={{ padding: '0 20px 28px' }}>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.3px' }}>Promptly</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.3px', cursor: 'pointer' }} onClick={() => navigate('/dashboard')}>Promptly</div>
             <div style={{ fontSize: '10px', color: 'rgba(200,168,130,0.5)', letterSpacing: '0.5px', marginTop: '2px' }}>v1.0.4</div>
           </div>
 
-          {/* Main nav */}
           <nav>
             {NAV_ITEMS.map((item) => (
               <button key={item.id} onClick={() => navigate(item.path)}
@@ -78,7 +53,6 @@ export default function DashboardPage() {
         </div>
 
         <div>
-          {/* Bottom nav */}
           <nav style={{ marginBottom: '16px' }}>
             {NAV_BOTTOM.map((item) => (
               <button key={item.id} onClick={() => navigate(item.path)}
@@ -89,12 +63,9 @@ export default function DashboardPage() {
             ))}
           </nav>
 
-          {/* New Experiment CTA */}
           <div style={{ padding: '0 16px' }}>
             <button
-              style={{ width: '100%', padding: '10px', background: 'rgba(200,168,130,0.1)', border: '1px solid rgba(200,168,130,0.2)', borderRadius: '8px', color: 'rgba(200,168,130,0.9)', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer', fontFamily: "'Ubuntu', sans-serif", transition: 'all 0.15s ease' }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(200,168,130,0.18)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(200,168,130,0.1)'; }}>
+              style={{ width: '100%', padding: '10px', background: 'rgba(200,168,130,0.1)', border: '1px solid rgba(200,168,130,0.2)', borderRadius: '8px', color: 'rgba(200,168,130,0.9)', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer', fontFamily: "'Ubuntu', sans-serif", transition: 'all 0.15s ease' }}>
               New Experiment
             </button>
           </div>
@@ -106,12 +77,8 @@ export default function DashboardPage() {
 
         {/* ─ Top bar ─ */}
         <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px', height: '56px', background: '#FAFAF9', borderBottom: '1px solid rgba(100,80,60,0.08)', flexShrink: 0 }}>
-          {/* Left side spacer */}
           <div />
-
-          {/* Right side */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            {/* Bell */}
             <div style={{ position: 'relative' }}>
               <button onClick={() => setShowNotifications(!showNotifications)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6B5C4E', display: 'flex', padding: '4px', position: 'relative' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
@@ -120,7 +87,6 @@ export default function DashboardPage() {
               {showNotifications && <NotificationPanel onClose={() => setShowNotifications(false)} />}
             </div>
 
-            {/* User avatar */}
             <div style={{ position: 'relative' }}>
               <button onClick={() => setShowUserMenu(!showUserMenu)}
                 style={{ width: '34px', height: '34px', borderRadius: '50%', background: '#1C1410', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
@@ -136,9 +102,7 @@ export default function DashboardPage() {
                     <div style={{ fontSize: '11px', color: '#6B5C4E', marginTop: '2px' }}>{user?.emailAddresses?.[0]?.emailAddress}</div>
                   </div>
                   <button onClick={handleSignOut}
-                    style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '10px 14px', border: 'none', background: 'none', cursor: 'pointer', fontSize: '13px', color: '#dc2626', fontFamily: "'Ubuntu', sans-serif", textAlign: 'left' }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(220,38,38,0.04)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '10px 14px', border: 'none', background: 'none', cursor: 'pointer', fontSize: '13px', color: '#dc2626', fontFamily: "'Ubuntu', sans-serif", textAlign: 'left' }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
                     Sign out
                   </button>
@@ -149,131 +113,109 @@ export default function DashboardPage() {
         </header>
 
         {/* ─ Scrollable body ─ */}
-        <main style={{ flex: 1, overflow: 'auto', padding: '32px' }}>
-
-          {/* Greeting */}
-          <div style={{ marginBottom: '28px' }}>
-            <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#1C1410', letterSpacing: '-0.6px', marginBottom: '6px' }}>
-              Good {getHour()}, {firstName}
-            </h1>
-            <p style={{ fontSize: '13px', color: '#6B5C4E' }}>
-              Your prompt library grew by 12% this week. Two experiments are ready for review.
-            </p>
+        <main style={{ flex: 1, overflow: 'auto', padding: '40px 60px' }}>
+          
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
+            <div>
+              <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#1C1410', letterSpacing: '-0.5px', marginBottom: '8px' }}>Analytics</h1>
+              <p style={{ fontSize: '15px', color: '#6B5C4E' }}>Monitor prompt performance, costs, and adoption metrics.</p>
+            </div>
+            <select style={{ background: '#FFFFFF', border: '1px solid rgba(100,80,60,0.15)', borderRadius: '8px', padding: '10px 16px', fontSize: '14px', color: '#1C1410', outline: 'none' }}>
+              <option>Last 30 days</option>
+              <option>Last 7 days</option>
+              <option>Current billing cycle</option>
+            </select>
           </div>
 
-          {/* ─ Stat cards ─ */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
-            <StatCard label="TOTAL PROMPTS" value="1,284" sub="+4%" subColor="#16a34a" icon={<DatabaseIcon />} />
-            <StatCard label="ACTIVE EXPERIMENTS" value="12" sub="Stable" subColor="#6B5C4E" icon={<FlaskIcon />} />
-            <StatCard label="AVG AI SCORE" value="0.94" sub="↑ 0.02" subColor="#16a34a" icon={<StarIcon />} />
-            <StatCard label="ROLLBACKS" value="3" sub="Action needed" subColor="#dc2626" icon={<HistoryIcon />} />
-          </div>
-
-          {/* ─ Bottom grid ─ */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '20px' }}>
-
-            {/* Recent Prompts */}
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(100,80,60,0.08)', overflow: 'hidden' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px 16px' }}>
-                <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1C1410' }}>Recent Prompts</h2>
-                <button style={{ background: 'none', border: 'none', fontSize: '13px', color: '#6B5C4E', cursor: 'pointer', fontFamily: "'Ubuntu', sans-serif" }}>
-                  View all →
-                </button>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginBottom: '24px' }}>
+            {/* Main Usage Chart */}
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(100,80,60,0.08)', padding: '24px' }}>
+              <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1C1410', marginBottom: '24px' }}>Prompt Usage (Requests)</h2>
+              <div style={{ height: '300px', width: '100%', position: 'relative' }}>
+                <svg width="100%" height="100%" viewBox="0 0 600 200" preserveAspectRatio="none">
+                  <path d="M0,180 Q100,160 200,100 T400,40 T600,60" fill="none" stroke="#C8A882" strokeWidth="3" />
+                  <path d="M0,180 Q100,160 200,100 T400,40 T600,60 L600,200 L0,200 Z" fill="rgba(200,168,130,0.1)" />
+                </svg>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', fontSize: '12px', color: '#A89E94' }}>
+                  <span>Mar 01</span>
+                  <span>Mar 10</span>
+                  <span>Mar 20</span>
+                  <span>Today</span>
+                </div>
               </div>
-
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid rgba(100,80,60,0.08)' }}>
-                    {['PROMPT NAME', 'VERSION', 'LAST UPDATED', 'STATUS'].map((h) => (
-                      <th key={h} style={{ padding: '8px 24px', fontSize: '10px', fontWeight: 700, color: '#6B5C4E', letterSpacing: '0.8px', textAlign: 'left' }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {PROMPTS.map((p, i) => {
-                    const s = STATUS_STYLE[p.status];
-                    return (
-                      <tr key={i} style={{ borderBottom: '1px solid rgba(100,80,60,0.05)', cursor: 'pointer', transition: 'background 0.1s' }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = '#FAFAF9'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
-                        <td style={{ padding: '14px 24px' }}>
-                          <div style={{ fontSize: '13px', fontWeight: 600, color: '#1C1410' }}>{p.name}</div>
-                          <div style={{ fontSize: '11px', color: '#6B5C4E', fontFamily: 'monospace' }}>Id: {p.id}</div>
-                        </td>
-                        <td style={{ padding: '14px 24px' }}>
-                          <span style={{ background: 'rgba(200,168,130,0.15)', color: '#9A7355', fontSize: '11px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', fontFamily: 'monospace' }}>{p.version}</span>
-                        </td>
-                        <td style={{ padding: '14px 24px', fontSize: '13px', color: '#6B5C4E' }}>{p.updated}</td>
-                        <td style={{ padding: '14px 24px' }}>
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: s.bg, color: s.color, fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', padding: '3px 8px', borderRadius: '4px' }}>
-                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: s.dot, flexShrink: 0 }} />
-                            {p.status}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
             </div>
 
-            {/* Quick Actions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(100,80,60,0.08)', padding: '20px 20px 8px' }}>
-                <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1C1410', marginBottom: '12px' }}>Quick Actions</h2>
+            {/* Performance Stats */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+               <div style={{ background: '#1C1410', borderRadius: '12px', padding: '24px', color: '#FFFFFF' }}>
+                <div style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.6 }}>Total Tokens</div>
+                <div style={{ fontSize: '28px', fontWeight: 800, marginTop: '8px' }}>8.44M</div>
+                <div style={{ fontSize: '13px', color: '#16a34a', marginTop: '4px' }}>↑ 12% vs last month</div>
+              </div>
+              <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(100,80,60,0.08)', padding: '24px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', color: '#6B5C4E' }}>Average Latency</div>
+                <div style={{ fontSize: '28px', fontWeight: 800, marginTop: '8px', color: '#1C1410' }}>420ms</div>
+                <div style={{ fontSize: '13px', color: '#16a34a', marginTop: '4px' }}>↓ 15.2ms improvement</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px' }}>
+            {/* Top Prompts */}
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(100,80,60,0.08)', padding: '20px' }}>
+              <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#1C1410', marginBottom: '16px' }}>Top Prompts</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {[
-                  { label: 'Create New Prompt', icon: <PlusIcon /> },
-                  { label: 'Optimize Model', icon: <WandIcon /> },
-                  { label: 'Invite Team', icon: <ShareIcon /> },
-                ].map((a) => (
-                  <button key={a.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '12px 14px', background: '#F7F5F2', border: '1px solid rgba(100,80,60,0.08)', borderRadius: '8px', marginBottom: '8px', cursor: 'pointer', fontFamily: "'Ubuntu', sans-serif", transition: 'all 0.15s ease' }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = '#EDE8E3'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = '#F7F5F2'}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontWeight: 500, color: '#1C1410' }}>
-                      <span style={{ color: '#6B5C4E' }}>{a.icon}</span>
-                      {a.label}
-                    </div>
-                    <span style={{ color: '#6B5C4E', fontSize: '14px' }}>›</span>
-                  </button>
+                  { name: 'Customer Support', count: '12.4k' },
+                  { name: 'Code Debugger', count: '8.2k' },
+                  { name: 'Marketing Copy', count: '4.1k' },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '14px', color: '#1C1410' }}>{item.name}</span>
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#C8A882' }}>{item.count}</span>
+                  </div>
                 ))}
               </div>
+            </div>
 
-              {/* Pro Tip */}
-              <div style={{ background: '#1C1410', borderRadius: '12px', padding: '20px', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '120px', height: '120px', borderRadius: '50%', background: 'rgba(200,168,130,0.06)' }} />
-                <div style={{ fontSize: '12px', fontWeight: 700, color: '#C8A882', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>Pro Tip</div>
-                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, marginBottom: '16px' }}>
-                  Using &quot;Chain of Thought&quot; reasoning in your prompts can increase accuracy for logic-heavy tasks by up to 24%.
-                </p>
-                <button style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '6px', padding: '7px 14px', fontSize: '12px', fontWeight: 600, color: '#FFFFFF', cursor: 'pointer', fontFamily: "'Ubuntu', sans-serif", transition: 'all 0.15s ease' }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.16)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
-                  Read Guide
-                </button>
-              </div>
+            {/* Error Rates */}
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(100,80,60,0.08)', padding: '20px' }}>
+              <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#1C1410', marginBottom: '16px' }}>Model Distribution</h2>
+               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                 <div style={{ display: 'flex', height: '24px', borderRadius: '4px', overflow: 'hidden' }}>
+                   <div style={{ flex: 6, background: '#1C1410' }} />
+                   <div style={{ flex: 3, background: '#C8A882' }} />
+                   <div style={{ flex: 1, background: '#A89E94' }} />
+                 </div>
+                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginTop: '8px' }}>
+                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                     <div style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#1C1410' }} /> GPT-4o
+                   </div>
+                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                     <div style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#C8A882' }} /> Mistral
+                   </div>
+                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                     <div style={{ width: '8px', height: '8px', borderRadius: '2px', background: '#A89E94' }} /> Others
+                   </div>
+                 </div>
+               </div>
+            </div>
+
+             {/* Cost Summary */}
+             <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(100,80,60,0.08)', padding: '20px' }}>
+              <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#1C1410', marginBottom: '16px' }}>Projected Cost</h2>
+              <div style={{ fontSize: '24px', fontWeight: 800, color: '#1C1410' }}>$1,244.50</div>
+              <p style={{ fontSize: '12px', color: '#6B5C4E', marginTop: '4px' }}>For current month (estimated)</p>
+              <button style={{ width: '100%', marginTop: '16px', padding: '8px', border: '1px solid rgba(100,80,60,0.15)', borderRadius: '6px', fontSize: '13px', color: '#1C1410', background: 'none', cursor: 'pointer' }}>
+                View Billing →
+              </button>
             </div>
           </div>
+
         </main>
       </div>
 
-      {/* Click outside to close menus */}
       {(showUserMenu || showNotifications) && <div style={{ position: 'fixed', inset: 0, zIndex: 40 }} onClick={() => { setShowUserMenu(false); setShowNotifications(false); }} />}
-    </div>
-  );
-}
-
-/* ── Stat Card ── */
-function StatCard({ label, value, sub, subColor, icon }) {
-  return (
-    <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(100,80,60,0.08)', padding: '20px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
-        <span style={{ fontSize: '10px', fontWeight: 700, color: '#6B5C4E', letterSpacing: '0.8px', textTransform: 'uppercase' }}>{label}</span>
-        <span style={{ color: 'rgba(200,168,130,0.7)' }}>{icon}</span>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-        <span style={{ fontSize: '26px', fontWeight: 800, color: '#1C1410', letterSpacing: '-0.5px' }}>{value}</span>
-        <span style={{ fontSize: '12px', fontWeight: 600, color: subColor }}>{sub}</span>
-      </div>
     </div>
   );
 }
@@ -285,11 +227,9 @@ const NOTIFICATIONS = [
   { id: 3, title: 'Prompt deployed', desc: 'Customer Support v4 is now live in production.', time: '3 hours ago', icon: '🚀', unread: false },
   { id: 4, title: 'Usage alert', desc: "You've used 80% of your monthly token quota.", time: 'Yesterday', icon: '⚠️', unread: false },
 ];
-
 function NotificationPanel({ onClose }) {
   return (
     <div style={{ position: 'absolute', right: 0, top: '42px', width: '360px', zIndex: 50, borderRadius: '16px', overflow: 'hidden', background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(24px) saturate(180%)', WebkitBackdropFilter: 'blur(24px) saturate(180%)', border: '1px solid rgba(255,255,255,0.35)', boxShadow: '0 16px 48px rgba(28,20,16,0.15), 0 0 0 1px rgba(200,168,130,0.08) inset' }}>
-      {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px 14px', borderBottom: '1px solid rgba(200,168,130,0.12)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '15px', fontWeight: 700, color: '#1C1410' }}>Notifications</span>
@@ -297,8 +237,6 @@ function NotificationPanel({ onClose }) {
         </div>
         <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#A89E94', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>Mark all read</button>
       </div>
-
-      {/* List */}
       <div style={{ maxHeight: '340px', overflowY: 'auto' }}>
         {NOTIFICATIONS.map((n) => (
           <div key={n.id} style={{ display: 'flex', gap: '12px', padding: '14px 20px', borderBottom: '1px solid rgba(200,168,130,0.06)', cursor: 'pointer', background: n.unread ? 'rgba(200,168,130,0.06)' : 'transparent', transition: 'background 0.15s' }}
@@ -316,8 +254,6 @@ function NotificationPanel({ onClose }) {
           </div>
         ))}
       </div>
-
-      {/* Footer */}
       <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(200,168,130,0.12)', textAlign: 'center' }}>
         <button style={{ background: 'none', border: 'none', color: '#C8A882', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>View all notifications →</button>
       </div>
@@ -332,10 +268,3 @@ function ExperimentIcon() { return <svg width="14" height="14" viewBox="0 0 24 2
 function AnalyticsIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>; }
 function TeamIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>; }
 function SettingsIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>; }
-function DatabaseIcon() { return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /></svg>; }
-function FlaskIcon() { return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14 2v6l3 10H7L10 8V2" /><line x1="8.5" y1="2" x2="15.5" y2="2" /></svg>; }
-function StarIcon() { return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>; }
-function HistoryIcon() { return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 .49-4.95" /></svg>; }
-function PlusIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>; }
-function WandIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M15 4V2m0 14v-2M8 9h2m10 0h2M17.8 11.8 19 13M15 9h0M6.2 6.2 5 5m12.8 5.8L19 13M6.2 17.8 5 19M15 9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" /></svg>; }
-function ShareIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" /></svg>; }
