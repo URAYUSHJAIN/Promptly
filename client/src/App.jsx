@@ -31,6 +31,31 @@ function GuestRoute({ children }) {
 /* SSO callback handler — properly navigates after OAuth */
 function SSOCallback() {
   const navigate = useNavigate();
+  const { isSignedIn, isLoaded } = useAuth();
+
+  // If already signed in, redirect to dashboard
+  if (isLoaded && isSignedIn) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  // If not loaded yet, show loading state
+  if (!isLoaded) {
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '18px',
+          fontFamily: 'system-ui',
+        }}
+      >
+        Completing sign-in...
+      </div>
+    );
+  }
+
   return (
     <HandleSSOCallback
       navigateToApp={({ decorateUrl }) => {
